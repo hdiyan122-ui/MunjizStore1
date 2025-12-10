@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Munjiz — Power Your Digital Future</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <!-- Logo -->
+            <div class="nav-logo">
+                <span class="logo-icon">◊</span>
+                <span class="logo-text">Munjiz</span>
+            </div>
+
+            <!-- Nav Links -->
+            <ul class="nav-menu" id="navMenu">
+                <li class="nav-item">
+                    <a href="#home" class="nav-link" data-i18n="nav_home">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#products" class="nav-link" data-i18n="nav_products">Products</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a href="#" class="nav-link" data-i18n="nav_categories">Categories</a>
+                    <div class="dropdown-menu">
+                        <a href="#courses" class="dropdown-link" data-i18n="cat_courses">Courses</a>
+                        <a href="#ebooks" class="dropdown-link" data-i18n="cat_ebooks">E-books</a>
+                        <a href="#ai-tools" class="dropdown-link" data-i18n="cat_ai_tools">AI Tools</a>
+                        <a href="#services" class="dropdown-link" data-i18n="cat_services">Services</a>
+                    </div>
+                </li>
+            </ul>
+
+            <!-- Right Controls -->
+            <div class="nav-controls">
+                <!-- Search -->
+                <div class="search-container">
+                    <input type="text" id="searchInput" class="search-input" placeholder="Search products..." data-i18n="search_placeholder">
+                    <button class="search-btn"><i class="fas fa-search"></i></button>
+                </div>
+
+                <!-- Currency Selector -->
+                <div class="selector-group">
+                    <select id="currencySelect" class="selector">
+                        <option value="USD">USD</option>
+                        <option value="EUR">EUR</option>
+                        <option value="MAD">MAD</option>
+                    </select>
+                </div>
+
+                <!-- Language Switcher -->
+                <div class="selector-group">
+                    <select id="languageSelect" class="selector">
+                        <option value="en">English</option>
+                        <option value="ar">العربية</option>
+                        <option value="fr">Français</option>
+                    </select>
+                </div>
+
+                <!-- Dark/Light Mode Toggle -->
+                <button class="theme-toggle" id="themeToggle" title="Toggle Dark/Light Mode">
+                    <i class="fas fa-moon"></i>
+                </button>
+
+                <!-- Contact CTA -->
+                <button class="btn-contact-nav" id="contactNavBtn" data-i18n="nav_contact">Contact Us</button>
+
+                <!-- Mobile Menu Toggle -->
+                <button class="hamburger" id="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 3D Canvas for Hero -->
+    <canvas id="canvas3d"></canvas>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Hero Section -->
+        <section class="hero" id="home">
+            <div class="hero-content">
+                <h1 class="hero-title" data-i18n="hero_title">Munjiz — Power Your Digital Future</h1>
+                <p class="hero-subtitle" data-i18n="hero_subtitle">Courses, E-books, AI services, and digital solutions.</p>
+                <div class="hero-cta">
+                    <button class="btn btn-primary" id="heroContactBtn" data-i18n="cta_contact">Contact Us</button>
+                    <button class="btn btn-secondary" id="heroExploreBtn" data-i18n="cta_explore">Explore Products</button>
+                </div>
+            </div>
+            <div class="hero-3d-elements">
+                <div class="floating-element element-1"></div>
+                <div class="floating-element element-2"></div>
+                <div class="floating-element element-3"></div>
+            </div>
+        </section>
+
+        <!-- Featured Products Carousel -->
+        <section class="featured-section" id="featured">
+            <div class="section-header">
+                <h2 data-i18n="featured_title">Featured Products</h2>
+                <p data-i18n="featured_subtitle">Handpicked digital solutions for your success</p>
+            </div>
+            <div class="carousel-container">
+                <div class="carousel" id="featuredCarousel">
+                    <!-- Products will be inserted here -->
+                </div>
+                <button class="carousel-btn carousel-prev"><i class="fas fa-chevron-left"></i></button>
+                <button class="carousel-btn carousel-next"><i class="fas fa-chevron-right"></i></button>
+            </div>
+        </section>
+
+        <!-- All Products Section -->
+        <section class="products-section" id="products">
+            <div class="section-header">
+                <h2 data-i18n="products_title">All Products</h2>
+                <p data-i18n="products_subtitle">Discover our complete collection</p>
+            </div>
+
+            <!-- Filters -->
+            <div class="filters-container">
+                <div class="filter-group">
+                    <label data-i18n="filter_category">Category</label>
+                    <select id="categoryFilter" class="filter-select">
+                        <option value="">All Categories</option>
+                        <option value="courses" data-i18n="cat_courses">Courses</option>
+                        <option value="ebooks" data-i18n="cat_ebooks">E-books</option>
+                        <option value="ai-tools" data-i18n="cat_ai_tools">AI Tools</option>
+                        <option value="services" data-i18n="cat_services">Services</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label data-i18n="filter_price">Price Range</label>
+                    <div class="price-range">
+                        <input type="range" id="minPrice" min="0" max="1000" value="0">
+                        <input type="range" id="maxPrice" min="0" max="1000" value="1000">
+                    </div>
+                    <span id="priceDisplay">$0 - $1000</span>
+                </div>
+
+                <div class="filter-group">
+                    <label data-i18n="filter_sort">Sort By</label>
+                    <select id="sortSelect" class="filter-select">
+                        <option value="newest" data-i18n="sort_newest">Newest</option>
+                        <option value="popular" data-i18n="sort_popular">Most Popular</option>
+                        <option value="price-low" data-i18n="sort_price_low">Price: Low to High</option>
+                        <option value="price-high" data-i18n="sort_price_high">Price: High to Low</option>
+                    </select>
+                </div>
+
+                <button class="btn-reset-filters" id="resetFilters" data-i18n="btn_reset_filters">Reset Filters</button>
+            </div>
+
+            <!-- Products Grid -->
+            <div class="products-grid" id="productsGrid">
+                <!-- Products will be inserted here -->
+            </div>
+        </section>
+
+        <!-- Categories Showcase -->
+        <section class="categories-section" id="categories">
+            <div class="section-header">
+                <h2 data-i18n="categories_title">Explore Categories</h2>
+                <p data-i18n="categories_subtitle">Find exactly what you need</p>
+            </div>
+            <div class="categories-grid" id="categoriesGrid">
+                <!-- Categories will be inserted here -->
+            </div>
+        </section>
+
+        <!-- Why Choose Munjiz -->
+        <section class="why-section" id="why">
+            <div class="section-header">
+                <h2 data-i18n="why_title">Why Choose Munjiz?</h2>
+            </div>
+            <div class="why-grid">
+                <div class="why-card">
+                    <div class="why-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3 data-i18n="why_ai">AI-Powered Solutions</h3>
+                    <p data-i18n="why_ai_desc">Advanced artificial intelligence integrated into our products</p>
+                </div>
+                <div class="why-card">
+                    <div class="why-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3 data-i18n="why_fast">Lightning Fast Delivery</h3>
+                    <p data-i18n="why_fast_desc">Instant access to digital products and solutions</p>
+                </div>
+                <div class="why-card">
+                    <div class="why-icon">
+                        <i class="fas fa-crown"></i>
+                    </div>
+                    <h3 data-i18n="why_premium">Premium Content</h3>
+                    <p data-i18n="why_premium_desc">High-quality, professionally crafted digital products</p>
+                </div>
+                <div class="why-card">
+                    <div class="why-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3 data-i18n="why_secure">100% Secure</h3>
+                    <p data-i18n="why_secure_desc">Your data and transactions are protected</p>
+                </div>
+                <div class="why-card">
+                    <div class="why-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h3 data-i18n="why_support">Expert Support</h3>
+                    <p data-i18n="why_support_desc">24/7 customer support and assistance</p>
+                </div>
+                <div class="why-card">
+                    <div class="why-icon">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <h3 data-i18n="why_global">Global Access</h3>
+                    <p data-i18n="why_global_desc">Available worldwide with multiple currencies</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials -->
+        <section class="testimonials-section" id="testimonials">
+            <div class="section-header">
+                <h2 data-i18n="testimonials_title">What Our Customers Say</h2>
+            </div>
+            <div class="testimonials-grid" id="testimonialsGrid">
+                <!-- Testimonials will be inserted here -->
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta-section">
+            <h2 data-i18n="cta_final_title">Ready to Transform Your Digital Future?</h2>
+            <p data-i18n="cta_final_subtitle">Start your journey with Munjiz today</p>
+            <button class="btn btn-primary btn-large" id="ctaContactBtn" data-i18n="cta_contact">Contact Us Now</button>
+        </section>
+
+        <!-- Contact Us Section -->
+        <section class="contact-section" id="contact">
+            <div class="section-header">
+                <h2 data-i18n="contact_title">Get In Touch</h2>
+                <p data-i18n="contact_subtitle">Choose your preferred way to connect with us</p>
+            </div>
+            <div class="contact-container">
+                <!-- Direct Contact Details -->
+                <div class="contact-info">
+                    <div class="contact-details-grid">
+                        <div class="contact-item contact-item-large">
+                            <div class="contact-item-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="contact-item-content">
+                                <h3>Email</h3>
+                                <p class="contact-value">hdiyan122@gmail.com</p>
+                                <a href="mailto:hdiyan122@gmail.com" class="contact-action-btn">Send Email</a>
+                            </div>
+                        </div>
+                        <div class="contact-item contact-item-large">
+                            <div class="contact-item-icon">
+                                <i class="fab fa-whatsapp"></i>
+                            </div>
+                            <div class="contact-item-content">
+                                <h3>WhatsApp</h3>
+                                <p class="contact-value">+212 728 254 498</p>
+                                <a href="https://wa.me/212728254498" target="_blank" rel="noopener" class="contact-action-btn">Start Chat</a>
+                            </div>
+                        </div>
+                        <div class="contact-item contact-item-large">
+                            <div class="contact-item-icon">
+                                <i class="fab fa-instagram"></i>
+                            </div>
+                            <div class="contact-item-content">
+                                <h3>Instagram</h3>
+                                <p class="contact-value">@matrixbotma</p>
+                                <a href="https://instagram.com/matrixbotma" target="_blank" rel="noopener" class="contact-action-btn">Follow Us</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Contact Form for General Inquiries -->
+                <form id="contact-form" class="contact-form">
+                    <h3 class="contact-form-title">Send a Message</h3>
+                    <p class="contact-form-subtitle">Have specific questions? Send us a message and we'll get back to you soon.</p>
+                    <div class="form-group">
+                        <input type="text" name="user_name" placeholder="Your Name" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" name="user_email" placeholder="Your Email" required>
+                    </div>
+                    <div class="form-group">
+                        <textarea name="message" placeholder="Your Message" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary" data-i18n="form_submit">Send Message</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer" id="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Munjiz</h4>
+                <p data-i18n="footer_desc">Premium digital products and AI-powered solutions</p>
+                <div class="social-links">
+                    <a href="https://instagram.com/matrixbotma" target="_blank" title="Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://wa.me/212728254498" target="_blank" title="WhatsApp">
+                        <i class="fab fa-whatsapp"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h4 data-i18n="footer_links">Quick Links</h4>
+                <ul>
+                    <li><a href="#home" data-i18n="nav_home">Home</a></li>
+                    <li><a href="#products" data-i18n="nav_products">Products</a></li>
+                    <li><a href="#categories" data-i18n="footer_categories">Categories</a></li>
+                    <li><a href="#contact" data-i18n="nav_contact">Contact</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4 data-i18n="footer_contact">Contact Information</h4>
+                <ul class="contact-info">
+                    <li>
+                        <i class="fas fa-envelope"></i>
+                        <a href="mailto:hdiyan122@gmail.com">hdiyan122@gmail.com</a>
+                    </li>
+                    <li>
+                        <i class="fab fa-whatsapp"></i>
+                        <a href="https://wa.me/212728254498">+212 728 254 498</a>
+                    </li>
+                    <li>
+                        <i class="fab fa-paypal"></i>
+                        <a href="https://www.paypal.me/AyaEssamlaly" target="_blank">PayPal</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4 data-i18n="footer_categories">Categories</h4>
+                <ul>
+                    <li><a href="#courses" data-i18n="cat_courses">Courses</a></li>
+                    <li><a href="#ebooks" data-i18n="cat_ebooks">E-books</a></li>
+                    <li><a href="#ai-tools" data-i18n="cat_ai_tools">AI Tools</a></li>
+                    <li><a href="#services" data-i18n="cat_services">Services</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="footer-copyright">
+                <p>&copy; 2025 <strong>Munjiz</strong>. <span data-i18n="footer_rights">All rights reserved.</span></p>
+                <p data-i18n="footer_ai_designed">Designed using Artificial Intelligence</p>
+            </div>
+            <div class="footer-3d-accent"></div>
+        </div>
+    </footer>
+
+    <!-- Contact Modal -->
+    <div class="modal" id="contactModal">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <h2 data-i18n="contact_modal_title">Get in Touch</h2>
+            <form id="contactForm" class="contact-form">
+                <div class="form-group">
+                    <label for="contactName" data-i18n="form_name">Full Name</label>
+                    <input type="text" id="contactName" required>
+                </div>
+                <div class="form-group">
+                    <label for="contactEmail" data-i18n="form_email">Email</label>
+                    <input type="email" id="contactEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="contactProduct" data-i18n="form_product">Product Interested In</label>
+                    <select id="contactProduct" required>
+                        <option value="">Select a product...</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="contactMessage" data-i18n="form_message">Message</label>
+                    <textarea id="contactMessage" rows="5" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" data-i18n="form_submit">Send Message</button>
+            </form>
+            <div class="contact-info-modal">
+                <h3 data-i18n="contact_direct">Direct Contact</h3>
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <a href="mailto:hdiyan122@gmail.com">hdiyan122@gmail.com</a>
+                </div>
+                <div class="contact-item">
+                    <i class="fab fa-whatsapp"></i>
+                    <a href="https://wa.me/212728254498">+212 728 254 498</a>
+                </div>
+                <div class="contact-item">
+                    <i class="fab fa-paypal"></i>
+                    <a href="https://www.paypal.me/AyaEssamlaly" target="_blank">PayPal</a>
+                </div>
+                <div class="contact-item">
+                    <i class="fab fa-instagram"></i>
+                    <a href="https://instagram.com/matrixbotma" target="_blank">@matrixbotma</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Contact Modal -->
+    <div class="modal" id="productContactModal">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <h2 data-i18n="product_contact_title">Complete Your Order</h2>
+            <div class="product-contact-info" id="productContactInfo"></div>
+            <form id="productContactForm" class="contact-form">
+                <div class="form-group">
+                    <label for="prodContactName" data-i18n="form_name">Full Name</label>
+                    <input type="text" id="prodContactName" required>
+                </div>
+                <div class="form-group">
+                    <label for="prodContactEmail" data-i18n="form_email">Email</label>
+                    <input type="email" id="prodContactEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="prodContactPhone" data-i18n="form_phone">WhatsApp / Phone</label>
+                    <input type="tel" id="prodContactPhone" required>
+                </div>
+                <div class="form-group">
+                    <label for="prodContactMessage" data-i18n="form_message">Any Questions?</label>
+                    <textarea id="prodContactMessage" rows="4"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" data-i18n="form_submit">Submit Order Request</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Scripts -->
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js"></script>
+    
+    <!-- Three.js for 3D -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
+    <!-- EmailJS -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function(){
+            emailjs.init({
+                publicKey: "FpbbU5jLTD80qCWLz",
+            });
+        })();
+    </script>
+    
+    <!-- Config & Utilities -->
+    <script src="firebase-config.js"></script>
+    <script src="firebase-db.js"></script>
+    <script src="i18n.js"></script>
+    <script src="utils.js"></script>
+    <script src="image-handler.js"></script>
+    
+    <!-- Features -->
+    <script src="emailjs-handler.js"></script>
+    <script src="3d-engine.js"></script>
+    <script src="products.js"></script>
+    <script src="category-filter.js"></script>
+    <script src="search-module.js"></script>
+    <script src="modals.js"></script>
+    <script src="main.js"></script>
+    <script src="script.js"></script>
+
+    <!-- Firebase Real-Time Product Sync -->
+    <script>
+        document.addEventListener('DOMContentLoaded', async function() {
+            // Initialize Firebase and load products
+            if (typeof firebaseDB !== 'undefined' && firebaseDB) {
+                const initialized = await firebaseDB.initialize();
+                if (initialized) {
+                    // Load initial products
+                    const result = await firebaseDB.getAllProducts();
+                    if (result.success && window.productManager) {
+                        window.productManager.updateProductsFromDatabase(result.products);
+                    }
+                    
+                    // Listen for real-time updates
+                    firebaseDB.onProductsChange((products) => {
+                        console.log('Products updated from Firebase:', products.length);
+                        if (window.productManager) {
+                            window.productManager.updateProductsFromDatabase(products);
+                        }
+                    });
+                }
+            }
+
+            // Contact Form Handler
+            const contactForm = document.getElementById("contact-form");
+            if (contactForm) {
+                contactForm.addEventListener("submit", function(event) {
+                    event.preventDefault();
+                    if (typeof handleContactFormSubmit === 'function') {
+                        handleContactFormSubmit(this);
+                    } else {
+                        console.error('Email handler not loaded');
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

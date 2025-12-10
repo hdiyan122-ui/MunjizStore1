@@ -1,0 +1,499 @@
+<!-- 
+    MUNJIZ ADMIN PANEL (FUTURE FEATURE)
+    This file demonstrates how an admin panel could be structured
+    Not integrated yet - for reference only
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Munjiz Admin Panel</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+        }
+
+        .admin-container {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            min-height: 100vh;
+        }
+
+        .admin-sidebar {
+            background: #1a1a1a;
+            border-right: 1px solid rgba(255, 0, 0, 0.2);
+            padding: 2rem 0;
+            position: fixed;
+            width: 250px;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .admin-sidebar h2 {
+            color: #FF0000;
+            padding: 0 1.5rem;
+            margin-bottom: 2rem;
+            font-size: 1.5rem;
+        }
+
+        .admin-menu {
+            list-style: none;
+        }
+
+        .admin-menu-item {
+            padding: 0;
+            margin: 0;
+        }
+
+        .admin-menu-item a {
+            display: block;
+            padding: 1rem 1.5rem;
+            color: #ffffff;
+            text-decoration: none;
+            border-left: 3px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .admin-menu-item a:hover {
+            background: rgba(255, 0, 0, 0.1);
+            border-left-color: #FF0000;
+            color: #FF0000;
+        }
+
+        .admin-menu-item a.active {
+            background: rgba(255, 0, 0, 0.15);
+            border-left-color: #FF0000;
+            color: #FF0000;
+        }
+
+        .admin-main {
+            margin-left: 250px;
+            padding: 2rem;
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid rgba(255, 0, 0, 0.2);
+        }
+
+        .admin-header h1 {
+            font-size: 2rem;
+            color: #FF0000;
+        }
+
+        .admin-header-controls {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .admin-button {
+            padding: 0.75rem 1.5rem;
+            background: #FF0000;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .admin-button:hover {
+            background: #cc0000;
+            transform: translateY(-2px);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: #1a1a1a;
+            border: 1px solid rgba(255, 0, 0, 0.2);
+            border-radius: 8px;
+            padding: 1.5rem;
+        }
+
+        .stat-card h3 {
+            color: #FF0000;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .stat-card .number {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card .change {
+            font-size: 0.875rem;
+            color: #666;
+        }
+
+        .products-table {
+            width: 100%;
+            background: #1a1a1a;
+            border: 1px solid rgba(255, 0, 0, 0.2);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .products-table thead {
+            background: rgba(255, 0, 0, 0.1);
+        }
+
+        .products-table th {
+            padding: 1rem;
+            text-align: left;
+            color: #FF0000;
+            font-weight: 600;
+            border-bottom: 1px solid rgba(255, 0, 0, 0.2);
+        }
+
+        .products-table td {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255, 0, 0, 0.1);
+        }
+
+        .products-table tbody tr:hover {
+            background: rgba(255, 0, 0, 0.05);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .action-btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.875rem;
+            transition: all 0.3s;
+        }
+
+        .edit-btn {
+            background: #FF0000;
+            color: white;
+        }
+
+        .delete-btn {
+            background: #cc0000;
+            color: white;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(255, 0, 0, 0.2);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #FF0000;
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            background: #0a0a0a;
+            border: 1px solid rgba(255, 0, 0, 0.2);
+            color: #ffffff;
+            border-radius: 4px;
+            font-family: inherit;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 150px;
+        }
+
+        @media (max-width: 768px) {
+            .admin-container {
+                grid-template-columns: 1fr;
+            }
+
+            .admin-sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+                border-right: none;
+                border-bottom: 1px solid rgba(255, 0, 0, 0.2);
+            }
+
+            .admin-main {
+                margin-left: 0;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="admin-sidebar">
+            <h2>Munjiz Admin</h2>
+            <ul class="admin-menu">
+                <li class="admin-menu-item">
+                    <a href="#dashboard" class="active">Dashboard</a>
+                </li>
+                <li class="admin-menu-item">
+                    <a href="#products">Products</a>
+                </li>
+                <li class="admin-menu-item">
+                    <a href="#orders">Orders</a>
+                </li>
+                <li class="admin-menu-item">
+                    <a href="#analytics">Analytics</a>
+                </li>
+                <li class="admin-menu-item">
+                    <a href="#settings">Settings</a>
+                </li>
+                <li class="admin-menu-item">
+                    <a href="index.html">← Back to Site</a>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="admin-main">
+            <!-- Dashboard Section -->
+            <section id="dashboard">
+                <div class="admin-header">
+                    <h1>Dashboard</h1>
+                    <div class="admin-header-controls">
+                        <button class="admin-button">Refresh</button>
+                    </div>
+                </div>
+
+                <!-- Statistics -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>Total Products</h3>
+                        <div class="number">5</div>
+                        <div class="change">0 added this week</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Contact Requests</h3>
+                        <div class="number">12</div>
+                        <div class="change">2 pending</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Page Views</h3>
+                        <div class="number">234</div>
+                        <div class="change">+15% this week</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Conversion Rate</h3>
+                        <div class="number">5.1%</div>
+                        <div class="change">From 234 visitors</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Products Section -->
+            <section id="products">
+                <div class="admin-header">
+                    <h1>Manage Products</h1>
+                    <div class="admin-header-controls">
+                        <button class="admin-button" onclick="openAddProductForm()">+ Add Product</button>
+                    </div>
+                </div>
+
+                <!-- Products Table -->
+                <table class="products-table">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Category</th>
+                            <th>Price (USD)</th>
+                            <th>Featured</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Django Course</td>
+                            <td>Courses</td>
+                            <td>$55</td>
+                            <td>Yes</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="action-btn edit-btn">Edit</button>
+                                    <button class="action-btn delete-btn">Delete</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>WhatsApp AI Bot</td>
+                            <td>AI Tools</td>
+                            <td>$155</td>
+                            <td>Yes</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="action-btn edit-btn">Edit</button>
+                                    <button class="action-btn delete-btn">Delete</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Professional Website</td>
+                            <td>Services</td>
+                            <td>$550</td>
+                            <td>Yes</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="action-btn edit-btn">Edit</button>
+                                    <button class="action-btn delete-btn">Delete</button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Add/Edit Product Form (Hidden by default) -->
+            <section id="product-form" style="display: none;">
+                <div class="admin-header">
+                    <h1>Add/Edit Product</h1>
+                </div>
+
+                <form style="max-width: 600px;">
+                    <div class="form-group">
+                        <label>Product Title</label>
+                        <input type="text" placeholder="Enter product title" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea placeholder="Enter product description" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Category</label>
+                        <select required>
+                            <option>Select Category</option>
+                            <option value="courses">Courses</option>
+                            <option value="ebooks">E-books</option>
+                            <option value="ai-tools">AI Tools</option>
+                            <option value="services">Services</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Price (USD)</label>
+                        <input type="number" placeholder="Enter price" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Product Icon</label>
+                        <input type="text" placeholder="Enter emoji or icon" required>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox"> Featured Product
+                        </label>
+                    </div>
+                    <div style="display: flex; gap: 1rem;">
+                        <button type="submit" class="admin-button">Save Product</button>
+                        <button type="button" class="admin-button" style="background: #666;" onclick="closeAddProductForm()">Cancel</button>
+                    </div>
+                </form>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        function openAddProductForm() {
+            document.getElementById('product-form').style.display = 'block';
+        }
+
+        function closeAddProductForm() {
+            document.getElementById('product-form').style.display = 'none';
+        }
+
+        // Switch between sections
+        document.querySelectorAll('.admin-menu-item a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const href = link.getAttribute('href');
+                
+                // Update active menu item
+                document.querySelectorAll('.admin-menu-item a').forEach(l => {
+                    l.classList.remove('active');
+                });
+                link.classList.add('active');
+
+                // Hide form when switching sections
+                document.getElementById('product-form').style.display = 'none';
+
+                // Show selected section (simplified - in real app use router)
+                if (href.startsWith('#')) {
+                    const sectionId = href.substring(1);
+                    document.querySelectorAll('section').forEach(s => {
+                        s.style.display = 'none';
+                    });
+                    const section = document.getElementById(sectionId);
+                    if (section) {
+                        section.style.display = 'block';
+                    }
+                }
+            });
+        });
+
+        // Admin features (when fully implemented)
+        const adminFeatures = {
+            addProduct: function(product) {
+                console.log('Adding product:', product);
+                // Send to backend API
+            },
+            editProduct: function(id, product) {
+                console.log('Editing product:', id, product);
+                // Send to backend API
+            },
+            deleteProduct: function(id) {
+                console.log('Deleting product:', id);
+                // Send to backend API
+            },
+            getAnalytics: function() {
+                console.log('Fetching analytics data');
+                // Fetch from backend API
+            },
+            exportData: function(format) {
+                console.log('Exporting as:', format);
+                // CSV, JSON, PDF export
+            }
+        };
+
+        console.log('Munjiz Admin Panel (Future Feature)');
+        console.log('This admin panel is not yet integrated');
+        console.log('Use adminFeatures object for future development');
+    </script>
+</body>
+</html>

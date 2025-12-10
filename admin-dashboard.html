@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Munjiz Admin Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="admin-dashboard.css">
+</head>
+<body>
+    <!-- Admin Dashboard Container -->
+    <div class="admin-container">
+        <!-- Sidebar Navigation -->
+        <aside class="admin-sidebar">
+            <div class="admin-logo">
+                <span class="logo-icon">◊</span>
+                <span class="logo-text">Munjiz Admin</span>
+            </div>
+
+            <nav class="admin-nav">
+                <a href="#dashboard" class="nav-link active" data-section="dashboard">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#products" class="nav-link" data-section="products">
+                    <i class="fas fa-cube"></i>
+                    <span>Products</span>
+                </a>
+                <a href="#orders" class="nav-link" data-section="orders">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Orders</span>
+                </a>
+                <a href="#analytics" class="nav-link" data-section="analytics">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Analytics</span>
+                </a>
+                <a href="#settings" class="nav-link" data-section="settings">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </a>
+            </nav>
+
+            <div class="admin-footer">
+                <button class="logout-btn" id="logoutBtn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="admin-main">
+            <!-- Header -->
+            <header class="admin-header">
+                <div class="header-left">
+                    <h1 id="pageTitle">Dashboard</h1>
+                </div>
+                <div class="header-right">
+                    <button class="theme-toggle-admin" id="themeToggleAdmin">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <div class="admin-user">
+                        <img src="https://via.placeholder.com/40" alt="Admin" class="user-avatar">
+                        <div class="user-info">
+                            <p class="user-name">Admin</p>
+                            <p class="user-email">admin@munjiz.com</p>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Content Sections -->
+            <div class="admin-content">
+                <!-- Dashboard Section -->
+                <section id="dashboard" class="content-section active">
+                    <div class="dashboard-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-shopping-cart"></i>
+                            </div>
+                            <div class="stat-content">
+                                <p class="stat-label">Total Orders</p>
+                                <p class="stat-value" id="totalOrders">0</p>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-cube"></i>
+                            </div>
+                            <div class="stat-content">
+                                <p class="stat-label">Total Products</p>
+                                <p class="stat-value" id="totalProducts">0</p>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-mouse-pointer"></i>
+                            </div>
+                            <div class="stat-content">
+                                <p class="stat-label">Contact Clicks</p>
+                                <p class="stat-value" id="totalClicks">0</p>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="stat-content">
+                                <p class="stat-label">Pending Orders</p>
+                                <p class="stat-value" id="pendingOrders">0</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-charts">
+                        <div class="chart-container">
+                            <h3>Orders This Week</h3>
+                            <canvas id="weeklyChart"></canvas>
+                        </div>
+                        <div class="chart-container">
+                            <h3>Top Products</h3>
+                            <div id="topProductsList" class="products-list"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Products Section -->
+                <section id="products" class="content-section">
+                    <div class="section-header">
+                        <h2>Product Management</h2>
+                        <button class="btn btn-primary" id="addProductBtn">
+                            <i class="fas fa-plus"></i> Add Product
+                        </button>
+                    </div>
+
+                    <div class="products-table-container">
+                        <table class="products-table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Category</th>
+                                    <th>Price</th>
+                                    <th>Status</th>
+                                    <th>Created</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="productsTableBody">
+                                <!-- Products will be inserted here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Orders Section -->
+                <section id="orders" class="content-section">
+                    <div class="section-header">
+                        <h2>Order Management</h2>
+                        <div class="filter-controls">
+                            <select id="orderStatusFilter" class="filter-select">
+                                <option value="">All Status</option>
+                                <option value="pending">Pending</option>
+                                <option value="processing">Processing</option>
+                                <option value="completed">Completed</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="orders-table-container">
+                        <table class="orders-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Customer Name</th>
+                                    <th>Email</th>
+                                    <th>Product</th>
+                                    <th>Status</th>
+                                    <th>Date & Time</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ordersTableBody">
+                                <!-- Orders will be inserted here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Analytics Section -->
+                <section id="analytics" class="content-section">
+                    <div class="analytics-grid">
+                        <div class="analytics-card">
+                            <h3>Orders by Period</h3>
+                            <div class="period-tabs">
+                                <button class="period-tab active" data-period="day">Daily</button>
+                                <button class="period-tab" data-period="week">Weekly</button>
+                                <button class="period-tab" data-period="month">Monthly</button>
+                            </div>
+                            <canvas id="analyticsChart"></canvas>
+                        </div>
+
+                        <div class="analytics-card">
+                            <h3>Popular Products</h3>
+                            <div id="popularProductsList" class="analytics-list"></div>
+                        </div>
+
+                        <div class="analytics-card">
+                            <h3>Click Statistics</h3>
+                            <div class="stats-grid">
+                                <div class="stat-item">
+                                    <p class="stat-name">Total Clicks</p>
+                                    <p class="stat-number" id="totalClicksAnalytics">0</p>
+                                </div>
+                                <div class="stat-item">
+                                    <p class="stat-name">Today</p>
+                                    <p class="stat-number" id="todayClicks">0</p>
+                                </div>
+                                <div class="stat-item">
+                                    <p class="stat-name">This Week</p>
+                                    <p class="stat-number" id="weekClicks">0</p>
+                                </div>
+                                <div class="stat-item">
+                                    <p class="stat-name">This Month</p>
+                                    <p class="stat-number" id="monthClicks">0</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="analytics-card">
+                            <h3>Category Distribution</h3>
+                            <canvas id="categoryChart"></canvas>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Settings Section -->
+                <section id="settings" class="content-section">
+                    <div class="settings-grid">
+                        <!-- Contact Information -->
+                        <div class="settings-card">
+                            <h3>Contact Information</h3>
+                            <form id="contactForm" class="settings-form">
+                                <div class="form-group">
+                                    <label>Email</label>
+                                    <input type="email" id="contactEmail" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>WhatsApp</label>
+                                    <input type="tel" id="contactWhatsapp" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>PayPal</label>
+                                    <input type="text" id="contactPaypal" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Instagram</label>
+                                    <input type="text" id="contactInstagram" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Save Changes</button>
+                            </form>
+                        </div>
+
+                        <!-- Currency Settings -->
+                        <div class="settings-card">
+                            <h3>Currency Settings</h3>
+                            <form id="currencyForm" class="settings-form">
+                                <div class="form-group">
+                                    <label>Default Currency</label>
+                                    <select id="defaultCurrency">
+                                        <option value="USD">USD ($)</option>
+                                        <option value="EUR">EUR (€)</option>
+                                        <option value="MAD">MAD (د.م.)</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Available Currencies</label>
+                                    <div class="checkbox-group">
+                                        <label>
+                                            <input type="checkbox" name="currencies" value="USD" checked>
+                                            USD
+                                        </label>
+                                        <label>
+                                            <input type="checkbox" name="currencies" value="EUR" checked>
+                                            EUR
+                                        </label>
+                                        <label>
+                                            <input type="checkbox" name="currencies" value="MAD" checked>
+                                            MAD
+                                        </label>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Save Changes</button>
+                            </form>
+                        </div>
+
+                        <!-- Language Settings -->
+                        <div class="settings-card">
+                            <h3>Language Settings</h3>
+                            <form id="languageForm" class="settings-form">
+                                <div class="form-group">
+                                    <label>Default Language</label>
+                                    <select id="defaultLanguage">
+                                        <option value="en">English</option>
+                                        <option value="ar">العربية</option>
+                                        <option value="fr">Français</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Available Languages</label>
+                                    <div class="checkbox-group">
+                                        <label>
+                                            <input type="checkbox" name="languages" value="en" checked>
+                                            English
+                                        </label>
+                                        <label>
+                                            <input type="checkbox" name="languages" value="ar" checked>
+                                            العربية
+                                        </label>
+                                        <label>
+                                            <input type="checkbox" name="languages" value="fr" checked>
+                                            Français
+                                        </label>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Save Changes</button>
+                            </form>
+                        </div>
+
+                        <!-- Theme Settings -->
+                        <div class="settings-card">
+                            <h3>Theme Settings</h3>
+                            <form id="themeForm" class="settings-form">
+                                <div class="form-group">
+                                    <label>Default Theme</label>
+                                    <div class="radio-group">
+                                        <label>
+                                            <input type="radio" name="theme" value="dark" checked>
+                                            Dark Mode
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="theme" value="light">
+                                            Light Mode
+                                        </label>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Save Changes</button>
+                            </form>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Product Modal -->
+    <div id="productModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <h2 id="productModalTitle">Add Product</h2>
+            <form id="productForm">
+                <div class="form-group">
+                    <label>Product Name</label>
+                    <input type="text" id="productName" required>
+                </div>
+                <div class="form-group">
+                    <label>Category</label>
+                    <select id="productCategory" required>
+                        <option value="">Select Category</option>
+                        <option value="courses">Course</option>
+                        <option value="ebooks">PDF/E-book</option>
+                        <option value="services">Service</option>
+                        <option value="ai-tools">AI Tool</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Price (USD)</label>
+                    <input type="number" id="productPrice" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label>Upload Image</label>
+                    <input type="file" id="productImage" accept="image/*" required>
+                    <small style="display: block; margin-top: 0.5rem; opacity: 0.7;">Supported: JPG, PNG, WebP (max 5MB)</small>
+                </div>
+                <div class="form-group" id="imagePreviewContainer" style="display: none;">
+                    <label>Image Preview</label>
+                    <div style="width: 100%; height: 200px; border: 2px solid var(--border-color); border-radius: 8px; overflow: hidden; background: var(--bg-secondary);">
+                        <img id="imagePreviewImg" src="" alt="Preview" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Short Description</label>
+                    <textarea id="productShortDesc" rows="2" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Long Description</label>
+                    <textarea id="productLongDesc" rows="4" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Save Product</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Order Details Modal -->
+    <div id="orderModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <h2>Order Details</h2>
+            <div id="orderDetails"></div>
+            <div class="modal-actions">
+                <select id="orderStatusSelect" class="filter-select">
+                    <option value="pending">Pending</option>
+                    <option value="processing">Processing</option>
+                    <option value="completed">Completed</option>
+                </select>
+                <button id="updateOrderBtn" class="btn btn-primary">Update Status</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js"></script>
+    
+    <!-- Chart.js for analytics -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Utility and Database Scripts -->
+    <script src="firebase-config.js"></script>
+    <script src="firebase-db.js"></script>
+    <script src="image-handler.js"></script>
+    
+    <!-- Admin Dashboard Main Scripts -->
+    <script src="admin-dashboard.js"></script>
+    
+    <!-- Additional Admin Modules -->
+    <script src="order-management.js"></script>
+    <script src="analytics.js"></script>
+    <script src="settings.js"></script>
+    
+    <!-- Initialize Dashboard -->
+    <script>
+        // Create dashboard instance when DOM is ready
+        let dashboard;
+        document.addEventListener('DOMContentLoaded', () => {
+            dashboard = new AdminDashboard();
+        });
+    </script>
+</body>
+</html>
